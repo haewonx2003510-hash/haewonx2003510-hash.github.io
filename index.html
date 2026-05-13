@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Haewon Oh — Fashion Design</title>
+<style>
+/* ─── Reset ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+
+/* ─── Variables ──────────────────────────────────── */
+:root {
+  --bg:        #0d0c0b;
+  --surface:   #131210;
+  --card:      #1a1815;
+  --border:    #2a2620;
+  --text:      #e8e2d9;
+  --muted:     #7a7066;
+  --accent:    #c9a96e;
+  --accent2:   #e8d5b0;
+  --white:     #f5f0e8;
+  --serif:     'Cormorant Garamond', 'Georgia', serif;
+  --sans:      'Jost', 'Trebuchet MS', sans-serif;
+  --mono:      'Courier New', monospace;
+}
+
+/* ─── Google Fonts (inline @import) ─────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500&display=swap');
+
+/* ─── Base ───────────────────────────────────────── */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.7;
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ─── Custom cursor ──────────────────────────────── */
+#cursor {
+  position: fixed;
+  width: 10px; height: 10px;
+  background: var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%,-50%);
+  transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s;
+  mix-blend-mode: difference;
+}
+#cursor-ring {
+  position: fixed;
+  width: 36px; height: 36px;
+  border: 1px solid var(--accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%,-50%);
+  transition: transform 0.18s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s;
+  opacity: 0.5;
+}
+body.hovering #cursor { width: 18px; height: 18px; }
+body.hovering #cursor-ring { width: 56px; height: 56px; opacity: 0.3; }
+
+/* ─── Noise texture overlay ──────────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+/* ─── Scrollbar ──────────────────────────────────── */
+::-webkit-scrollbar { width: 3px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--accent); }
+
+/* ─── Navigation ─────────────────────────────────── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.6rem 4rem;
+  background: linear-gradient(to bottom, rgba(13,12,11,0.95) 0%, transparent 100%);
+  backdrop-filter: blur(2px);
+}
+.nav-logo {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  color: var(--accent);
+  text-decoration: none;
+  font-style: italic;
+}
+.nav-links {
+  display: flex;
+  gap: 2.5rem;
+  list-style: none;
+}
+.nav-links a {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--accent); }
+
+/* ─── Hero ───────────────────────────────────────── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 4rem 6rem;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Diagonal gradient background */
+#hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 60% 60% at 80% 20%, rgba(201,169,110,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 50% at 10% 80%, rgba(201,169,110,0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Vertical stitch line */
+#hero::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 15%;
+  bottom: 15%;
+  width: 1px;
+  background: repeating-linear-gradient(
+    to bottom,
+    var(--border) 0px,
+    var(--border) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  opacity: 0.6;
+}
+
+.hero-label {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  animation: fadeUp 0.8s ease 0.2s forwards;
+}
+
+.hero-name {
+  font-family: var(--serif);
+  font-size: clamp(4.5rem, 10vw, 9rem);
+  font-weight: 300;
+  line-height: 0.92;
+  letter-spacing: -0.01em;
+  color: var(--white);
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.4s forwards;
+}
+
+.hero-name em {
+  font-style: italic;
+  color: var(--accent);
+}
+
+.hero-sub {
+  margin-top: 2rem;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  font-weight: 300;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0;
+  animation: fadeUp 0.9s ease 0.65s forwards;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 2.5rem;
+  right: 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  opacity: 0;
+  animation: fadeUp 0.9s ease 1s forwards;
+}
+.hero-scroll span {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+  writing-mode: vertical-rl;
+}
+.hero-scroll-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: lineGrow 2s ease infinite;
+}
+
+@keyframes lineGrow {
+  0%, 100% { transform: scaleY(0); transform-origin: top; opacity: 0; }
+  40% { transform: scaleY(1); transform-origin: top; opacity: 1; }
+  80% { transform: scaleY(1); transform-origin: bottom; opacity: 0; }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Section shared ─────────────────────────────── */
+section {
+  padding: 7rem 4rem;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.section-label::after {
+  content: '';
+  flex: 1;
+  max-width: 60px;
+  height: 1px;
+  background: var(--border);
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 300;
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 3.5rem;
+}
+.section-title em { font-style: italic; color: var(--accent); }
+
+/* ─── Reveal animation ───────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ─── About ──────────────────────────────────────── */
+#about {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8rem;
+  align-items: start;
+  padding-top: 9rem;
+}
+.about-left { padding-top: 1rem; }
+
+.about-body {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--text);
+  font-weight: 300;
+}
+.about-body p + p { margin-top: 1.4rem; }
+
+.about-detail {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+.detail-item {}
+.detail-key {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.3rem;
+}
+.detail-val {
+  font-size: 0.9rem;
+  color: var(--accent2);
+}
+
+/* Decorative fashion sketch box */
+.about-visual {
+  position: relative;
+  height: 420px;
+  border: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--card);
+}
+.about-visual::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px dashed var(--border);
+  pointer-events: none;
+}
+.about-visual-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+.fashion-icon {
+  width: 120px;
+  height: 200px;
+  position: relative;
+}
+.about-visual-tag {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.2em;
+  color: var(--muted);
+  text-transform: uppercase;
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.9rem;
+}
+/* Corner marks */
+.about-visual span.corner {
+  position: absolute;
+  width: 14px; height: 14px;
+  border-color: var(--accent);
+  border-style: solid;
+}
+.about-visual span.corner.tl { top: 6px; left: 6px; border-width: 1px 0 0 1px; }
+.about-visual span.corner.tr { top: 6px; right: 6px; border-width: 1px 1px 0 0; }
+.about-visual span.corner.bl { bottom: 6px; left: 6px; border-width: 0 0 1px 1px; }
+.about-visual span.corner.br { bottom: 6px; right: 6px; border-width: 0 1px 1px 0; }
+
+/* Animated shimmer bar */
+.about-visual-bar {
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(201,169,110,0.04), transparent);
+  animation: shimmer 3.5s ease infinite;
+}
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 160%; }
+}
+
+/* ─── Projects ───────────────────────────────────── */
+#projects { border-top: 1px solid var(--border); }
+
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5px;
+  background: var(--border);
+}
+
+.project-card {
+  background: var(--card);
+  padding: 2.8rem;
+  position: relative;
+  overflow: hidden;
+  cursor: none;
+  transition: background 0.4s ease;
+}
+.project-card:hover { background: #1f1c18; }
+
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 0;
+  background: var(--accent);
+  transition: height 0.4s ease;
+}
+.project-card:hover::before { height: 100%; }
+
+.project-num {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  margin-bottom: 1.5rem;
+}
+
+.project-title {
+  font-family: var(--serif);
+  font-size: 1.8rem;
+  font-weight: 300;
+  color: var(--white);
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  transition: color 0.3s;
+}
+.project-card:hover .project-title { color: var(--accent); }
+
+.project-desc {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.75;
+  margin-bottom: 1.8rem;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.tag {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--border);
+  padding: 0.3rem 0.7rem;
+}
+
+.project-arrow {
+  position: absolute;
+  bottom: 2.8rem;
+  right: 2.8rem;
+  width: 36px; height: 36px;
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.85rem;
+  color: var(--muted);
+  transition: border-color 0.3s, color 0.3s, transform 0.3s;
+}
+.project-card:hover .project-arrow {
+  border-color: var(--accent);
+  color: var(--accent);
+  transform: translate(3px, -3px);
+}
+
+/* Wide card */
+.project-card.wide {
+  grid-column: span 2;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+/* ─── Skills ─────────────────────────────────────── */
+#skills { border-top: 1px solid var(--border); }
+
+.skills-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 6rem;
+  align-items: start;
+}
+
+.skills-intro {
+  font-size: 0.95rem;
+  color: var(--muted);
+  line-height: 1.85;
+}
+
+.skills-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.skill-group-label {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.skill-bars { display: flex; flex-direction: column; gap: 0.9rem; }
+
+.skill-row {
+  display: grid;
+  grid-template-columns: 160px 1fr auto;
+  align-items: center;
+  gap: 1rem;
+}
+.skill-name {
+  font-size: 0.82rem;
+  color: var(--text);
+}
+.skill-bar-track {
+  height: 1px;
+  background: var(--border);
+  position: relative;
+  overflow: visible;
+}
+.skill-bar-fill {
+  height: 1px;
+  background: linear-gradient(to right, var(--accent), var(--accent2));
+  width: 0%;
+  transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.skill-pct {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--muted);
+  width: 30px;
+  text-align: right;
+}
+
+/* ─── Contact ────────────────────────────────────── */
+#contact {
+  border-top: 1px solid var(--border);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact-headline {
+  font-family: var(--serif);
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  font-weight: 300;
+  line-height: 1.05;
+  color: var(--white);
+  margin-bottom: 2.5rem;
+  max-width: 700px;
+}
+.contact-headline em { font-style: italic; color: var(--accent); }
+
+.contact-desc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  max-width: 420px;
+  line-height: 1.8;
+  margin-bottom: 3.5rem;
+}
+
+.contact-links {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 5rem;
+}
+
+.btn-primary {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--bg);
+  background: var(--accent);
+  padding: 1rem 2.4rem;
+  transition: background 0.3s, color 0.3s;
+}
+.btn-primary:hover { background: var(--accent2); }
+
+.btn-outline {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 1rem 2.4rem;
+  transition: background 0.3s, color 0.3s;
+}
+.btn-outline:hover { background: var(--accent); color: var(--bg); }
+
+.contact-info {
+  display: flex;
+  gap: 4rem;
+  padding-top: 3rem;
+  border-top: 1px solid var(--border);
+  width: 100%;
+  max-width: 600px;
+  justify-content: center;
+}
+.contact-info-item {}
+.contact-info-key {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 0.3rem;
+}
+.contact-info-val {
+  font-size: 0.85rem;
+  color: var(--accent2);
+}
+
+/* ─── Footer ─────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 100%;
+}
+.footer-copy {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+  color: var(--muted);
+}
+.footer-made {
+  font-family: var(--mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  color: var(--border);
+}
+
+/* ─── Divider ────────────────────────────────────── */
+.stitch-divider {
+  width: 100%;
+  height: 1px;
+  background: repeating-linear-gradient(
+    to right,
+    var(--border) 0px,
+    var(--border) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  margin: 0 auto;
+  max-width: 1280px;
+  padding: 0 4rem;
+}
+
+/* ─── Responsive ─────────────────────────────────── */
+@media (max-width: 900px) {
+  nav { padding: 1.4rem 2rem; }
+  nav .nav-links { gap: 1.5rem; }
+  #hero { padding: 0 2rem 5rem; }
+  section { padding: 5rem 2rem; }
+  #about { grid-template-columns: 1fr; gap: 3rem; }
+  .about-visual { height: 280px; }
+  .projects-grid { grid-template-columns: 1fr; gap: 1px; }
+  .project-card.wide { grid-column: auto; grid-template-columns: 1fr; gap: 1.5rem; }
+  .skills-layout { grid-template-columns: 1fr; gap: 3rem; }
+  .skill-row { grid-template-columns: 120px 1fr auto; }
+  footer { flex-direction: column; gap: 0.7rem; text-align: center; }
+  .contact-info { flex-direction: column; gap: 1.5rem; align-items: center; text-align: center; }
+  .hero-scroll { right: 2rem; }
+}
+
+@media (max-width: 600px) {
+  .hero-name { font-size: 3.5rem; }
+  nav .nav-links { display: none; }
+  .contact-links { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+
+<!-- Navigation -->
+<nav>
+  <a href="#hero" class="nav-logo">H. Oh</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section id="hero">
+  <p class="hero-label">Fashion Designer &amp; Visual Researcher</p>
+  <h1 class="hero-name">Haewon<br><em>Oh</em></h1>
+  <p class="hero-sub">성균관대학교 &nbsp;·&nbsp; Fashion Design &nbsp;·&nbsp; Seoul, Korea</p>
+  <div class="hero-scroll">
+    <div class="hero-scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<div class="stitch-divider"></div>
+
+<!-- About -->
+<section id="about">
+  <div class="about-left reveal">
+    <p class="section-label">01 — About Me</p>
+    <h2 class="section-title">Designing at the<br><em>edge of culture</em></h2>
+    <div class="about-body">
+      <p>I am a fashion design student at Sungkyunkwan University, where I explore the intersection of garment construction, visual identity, and emerging technology. My practice is driven by a curiosity for how clothing communicates ideas before a single word is spoken.</p>
+      <p>From conceptual runway research to AI-generated visual culture in fashion, I work across physical and digital materials — always asking how aesthetics shape meaning. I believe design is an act of critical thinking made tangible.</p>
+    </div>
+    <div class="about-detail">
+      <div class="detail-item">
+        <p class="detail-key">University</p>
+        <p class="detail-val">SKKU, Seoul</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-key">Major</p>
+        <p class="detail-val">Fashion Design</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-key">Focus</p>
+        <p class="detail-val">Concept &amp; Digital</p>
+      </div>
+      <div class="detail-item">
+        <p class="detail-key">Language</p>
+        <p class="detail-val">KO / EN</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="about-visual reveal" style="transition-delay: 0.15s">
+    <span class="corner tl"></span>
+    <span class="corner tr"></span>
+    <span class="corner bl"></span>
+    <span class="corner br"></span>
+    <div class="about-visual-bar"></div>
+    <div class="about-visual-inner">
+      <!-- Inline SVG fashion silhouette -->
+      <svg width="100" height="180" viewBox="0 0 100 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Head -->
+        <ellipse cx="50" cy="16" rx="11" ry="13" stroke="#2a2620" stroke-width="1"/>
+        <!-- Neck -->
+        <line x1="50" y1="29" x2="50" y2="40" stroke="#2a2620" stroke-width="1"/>
+        <!-- Shoulders -->
+        <path d="M20 52 Q35 40 50 40 Q65 40 80 52" stroke="#c9a96e" stroke-width="1" fill="none"/>
+        <!-- Body/dress silhouette -->
+        <path d="M20 52 L15 110 Q30 125 50 128 Q70 125 85 110 L80 52" stroke="#2a2620" stroke-width="1" fill="rgba(201,169,110,0.04)"/>
+        <!-- Waist dart lines -->
+        <line x1="30" y1="60" x2="32" y2="90" stroke="#2a2620" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <line x1="70" y1="60" x2="68" y2="90" stroke="#2a2620" stroke-width="0.5" stroke-dasharray="2,2"/>
+        <!-- Skirt flare -->
+        <path d="M15 110 Q20 150 40 168 Q50 172 60 168 Q80 150 85 110" stroke="#c9a96e" stroke-width="1" fill="rgba(201,169,110,0.03)"/>
+        <!-- Hem decoration -->
+        <path d="M40 168 Q50 175 60 168" stroke="#c9a96e" stroke-width="0.8" fill="none"/>
+        <!-- Collar -->
+        <path d="M35 42 Q50 48 65 42" stroke="#c9a96e" stroke-width="0.8" fill="none"/>
+        <!-- Center seam -->
+        <line x1="50" y1="40" x2="50" y2="128" stroke="#1e2230" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <!-- Arms -->
+        <path d="M20 52 Q8 75 12 100" stroke="#2a2620" stroke-width="1" fill="none"/>
+        <path d="M80 52 Q92 75 88 100" stroke="#2a2620" stroke-width="1" fill="none"/>
+        <!-- Measurement annotation -->
+        <line x1="2" y1="52" x2="2" y2="110" stroke="#1e2230" stroke-width="0.5"/>
+        <line x1="0" y1="52" x2="4" y2="52" stroke="#1e2230" stroke-width="0.5"/>
+        <line x1="0" y1="110" x2="4" y2="110" stroke="#1e2230" stroke-width="0.5"/>
+      </svg>
+      <p class="about-visual-tag">SS 2025 Atelier</p>
+    </div>
+  </div>
+</section>
+
+<!-- Projects -->
+<section id="projects">
+  <div class="reveal">
+    <p class="section-label">02 — Selected Work</p>
+    <h2 class="section-title">Projects &amp;<br><em>Explorations</em></h2>
+  </div>
+
+  <div class="projects-grid">
+
+    <!-- Card 1 -->
+    <div class="project-card reveal" style="transition-delay:0.05s">
+      <p class="project-num">01</p>
+      <h3 class="project-title">AI Fashion Image<br>Research Seminar</h3>
+      <p class="project-desc">An academic seminar presentation examining landmark AI-generated image cases in fashion — Balenciaga's CLONES runway, the viral Harry Potter × Balenciaga meme, and LVMH's encounter with AI-enabled counterfeit aesthetics.</p>
+      <div class="project-tags">
+        <span class="tag">AI &amp; Fashion</span>
+        <span class="tag">Visual Culture</span>
+        <span class="tag">Research</span>
+      </div>
+      <div class="project-arrow">↗</div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="project-card reveal" style="transition-delay:0.12s">
+      <p class="project-num">02</p>
+      <h3 class="project-title">Editorial Lookbook<br>— Void Season</h3>
+      <p class="project-desc">A conceptual lookbook exploring absence as a design language — garments photographed in liminal architectural spaces to interrogate the relationship between body, fabric, and negative space.</p>
+      <div class="project-tags">
+        <span class="tag">Styling</span>
+        <span class="tag">Editorial</span>
+        <span class="tag">Photography</span>
+      </div>
+      <div class="project-arrow">↗</div>
+    </div>
+
+    <!-- Card 3 — Wide -->
+    <div class="project-card wide reveal" style="transition-delay:0.2s">
+      <div>
+        <p class="project-num">03</p>
+        <h3 class="project-title">Textile Archive<br>Dashboard</h3>
+        <div class="project-arrow" style="position:relative; bottom:auto; right:auto; margin-top:2rem; display:inline-flex;">↗</div>
+      </div>
+      <div>
+        <p class="project-desc">A digital cataloguing system for textile swatches, pattern references, and sourcing notes — designed to support independent designers managing seasonal material libraries across multiple collections.</p>
+        <div class="project-tags">
+          <span class="tag">UI Design</span>
+          <span class="tag">Systems</span>
+          <span class="tag">Textiles</span>
+          <span class="tag">Archive</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="project-card reveal" style="transition-delay:0.28s">
+      <p class="project-num">04</p>
+      <h3 class="project-title">Drape Study:<br>Bias Cut Series</h3>
+      <p class="project-desc">A hands-on construction study exploring the behaviour of natural fibres cut on the bias — translated into a series of toile experiments and technical flat sketches.</p>
+      <div class="project-tags">
+        <span class="tag">Patternmaking</span>
+        <span class="tag">Draping</span>
+        <span class="tag">Studio</span>
+      </div>
+      <div class="project-arrow">↗</div>
+    </div>
+
+    <!-- Card 5 -->
+    <div class="project-card reveal" style="transition-delay:0.35s">
+      <p class="project-num">05</p>
+      <h3 class="project-title">Brand Identity<br>— Studio Null</h3>
+      <p class="project-desc">Visual identity system for a fictional concept label: logo, typographic system, look-tag design, and packaging conceived around a philosophy of intentional reduction.</p>
+      <div class="project-tags">
+        <span class="tag">Branding</span>
+        <span class="tag">Typography</span>
+        <span class="tag">Print</span>
+      </div>
+      <div class="project-arrow">↗</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Skills -->
+<section id="skills">
+  <div class="reveal">
+    <p class="section-label">03 — Capabilities</p>
+    <h2 class="section-title">Skills &amp;<br><em>Disciplines</em></h2>
+  </div>
+
+  <div class="skills-layout">
+    <div class="skills-intro reveal">
+      <p>My practice spans traditional fashion craft and contemporary digital tools — allowing me to move fluidly between the atelier and the screen without losing sight of either.</p>
+    </div>
+
+    <div class="skills-groups">
+
+      <div class="reveal" style="transition-delay:0.1s">
+        <p class="skill-group-label">Design &amp; Construction</p>
+        <div class="skill-bars">
+          <div class="skill-row">
+            <span class="skill-name">Pattern Drafting</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="90"></div></div>
+            <span class="skill-pct">90%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Draping</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="82"></div></div>
+            <span class="skill-pct">82%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Garment Construction</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="85"></div></div>
+            <span class="skill-pct">85%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Textile Knowledge</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="78"></div></div>
+            <span class="skill-pct">78%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal" style="transition-delay:0.2s">
+        <p class="skill-group-label">Visual &amp; Digital</p>
+        <div class="skill-bars">
+          <div class="skill-row">
+            <span class="skill-name">Adobe Illustrator</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="88"></div></div>
+            <span class="skill-pct">88%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Photoshop</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="80"></div></div>
+            <span class="skill-pct">80%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">CLO 3D</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="65"></div></div>
+            <span class="skill-pct">65%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Midjourney / AI Tools</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="75"></div></div>
+            <span class="skill-pct">75%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal" style="transition-delay:0.3s">
+        <p class="skill-group-label">Research &amp; Strategy</p>
+        <div class="skill-bars">
+          <div class="skill-row">
+            <span class="skill-name">Trend Analysis</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="84"></div></div>
+            <span class="skill-pct">84%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Visual Research</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="90"></div></div>
+            <span class="skill-pct">90%</span>
+          </div>
+          <div class="skill-row">
+            <span class="skill-name">Brand Concepts</span>
+            <div class="skill-bar-track"><div class="skill-bar-fill" data-pct="77"></div></div>
+            <span class="skill-pct">77%</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+  <p class="section-label reveal" style="margin-bottom:1.5rem">04 — Get In Touch</p>
+  <h2 class="contact-headline reveal" style="transition-delay:0.1s">
+    Let's <em>create</em><br>something together
+  </h2>
+  <p class="contact-desc reveal" style="transition-delay:0.2s">
+    Open to collaborations, internship opportunities, and creative conversations. I'd love to hear about your project.
+  </p>
+  <div class="contact-links reveal" style="transition-delay:0.3s">
+    <a href="mailto:haewon.oh@skku.edu" class="btn-primary">Send a message</a>
+    <a href="#projects" class="btn-outline">View my work</a>
+  </div>
+  <div class="contact-info reveal" style="transition-delay:0.4s">
+    <div class="contact-info-item">
+      <p class="contact-info-key">Email</p>
+      <p class="contact-info-val">haewon.oh@skku.edu</p>
+    </div>
+    <div class="contact-info-item">
+      <p class="contact-info-key">Location</p>
+      <p class="contact-info-val">Seoul, South Korea</p>
+    </div>
+    <div class="contact-info-item">
+      <p class="contact-info-key">Instagram</p>
+      <p class="contact-info-val">@haewon.studio</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <p class="footer-copy">© 2025 Haewon Oh — All rights reserved</p>
+  <p class="footer-made">Haewon Oh · Fashion Design · SKKU</p>
+</footer>
+
+<script>
+// ─── Custom Cursor ───────────────────────────────────
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  cursor.style.left = mx + 'px';
+  cursor.style.top  = my + 'px';
+});
+
+function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top  = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+document.querySelectorAll('a, button, .project-card').forEach(el => {
+  el.addEventListener('mouseenter', () => document.body.classList.add('hovering'));
+  el.addEventListener('mouseleave', () => document.body.classList.remove('hovering'));
+});
+
+// ─── Reveal on scroll ────────────────────────────────
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      // Animate skill bars
+      e.target.querySelectorAll('.skill-bar-fill').forEach(bar => {
+        bar.style.width = bar.dataset.pct + '%';
+      });
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Also observe skill groups to trigger bars
+document.querySelectorAll('.skills-groups .reveal').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
